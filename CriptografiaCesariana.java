@@ -33,7 +33,7 @@ public class CriptografiaCesariana implements Criptografia {
 	for(int i = 0; i < fraseOriginal.length; i++) {
 		if (fraseOriginal[i] > 99 && fraseOriginal[i] <= 122) {
 			fraseNova[i] = (char) (fraseOriginal[i]-CHAVE);
-		}else if (fraseOriginal[i] >= 97 && fraseOriginal[i] <= 122 ) {
+		}else if (fraseOriginal[i] >= 99 && fraseOriginal[i] <= 122 ) {
 			fraseNova[i] = (char) (fraseOriginal[i]+20+CHAVE);
 		} else {
 			fraseNova[i] = (char) (fraseOriginal[i]);
