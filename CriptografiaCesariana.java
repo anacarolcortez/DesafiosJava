@@ -9,40 +9,40 @@ public class CriptografiaCesariana implements Criptografia {
     public String criptografar(String texto) {
     	pegaErro(texto);
     	char [] fraseOriginal = texto.toLowerCase().toCharArray();
-		char [] fraseNova = new char[fraseOriginal.length];		
+	char [] fraseNova = new char[fraseOriginal.length];		
 		
-		for(int i = 0; i < fraseOriginal.length; i++) {
-			if (fraseOriginal[i] >= 97 && fraseOriginal[i] < 120) {
-				fraseNova[i] = (char) (fraseOriginal[i]+CHAVE);
-			}else if (fraseOriginal[i] >= 97 && fraseOriginal[i] <= 122 ) {
-				fraseNova[i] = (char) (fraseOriginal[i]-20-CHAVE);
-			} else {
-				fraseNova[i] = (char) (fraseOriginal[i]);
-			}
-				
+	for(int i = 0; i < fraseOriginal.length; i++) {
+		if (fraseOriginal[i] >= 97 && fraseOriginal[i] < 120) {
+			fraseNova[i] = (char) (fraseOriginal[i]+CHAVE);
+		}else if (fraseOriginal[i] >= 97 && fraseOriginal[i] <= 122 ) {
+			fraseNova[i] = (char) (fraseOriginal[i]-20-CHAVE);
+		} else {
+			fraseNova[i] = (char) (fraseOriginal[i]);
 		}
-		return new String (fraseNova);
+				
+	}
+	return new String (fraseNova);
     }
 
     @Override
     public String descriptografar(String texto) {
     	pegaErro(texto);
     	char [] fraseOriginal = texto.toLowerCase().toCharArray();
-		char [] fraseNova = new char[fraseOriginal.length];		
+	char [] fraseNova = new char[fraseOriginal.length];		
     	
-		for(int i = 0; i < fraseOriginal.length; i++) {
-			if (fraseOriginal[i] > 99 && fraseOriginal[i] <= 122) {
-				fraseNova[i] = (char) (fraseOriginal[i]-CHAVE);
-			}else if (fraseOriginal[i] >= 97 && fraseOriginal[i] <= 122 ) {
-				fraseNova[i] = (char) (fraseOriginal[i]+20+CHAVE);
-			} else {
-				fraseNova[i] = (char) (fraseOriginal[i]);
-			}
-				
+	for(int i = 0; i < fraseOriginal.length; i++) {
+		if (fraseOriginal[i] > 99 && fraseOriginal[i] <= 122) {
+			fraseNova[i] = (char) (fraseOriginal[i]-CHAVE);
+		}else if (fraseOriginal[i] >= 97 && fraseOriginal[i] <= 122 ) {
+			fraseNova[i] = (char) (fraseOriginal[i]+20+CHAVE);
+		} else {
+			fraseNova[i] = (char) (fraseOriginal[i]);
 		}
+				
+	}
 		
-		return new String (fraseNova);
-    	}
+	return new String (fraseNova);
+    }
    
     private void pegaErro(String text) {
         if (Objects.isNull(text)) {
