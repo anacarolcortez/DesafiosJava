@@ -46,16 +46,16 @@ public class StatisticUtil {
 	public static int[] ordenarNumeros(int[] elements) {
 		int i, j, n;
 		int aux = elements.length-1;
-	    for (i = 0; i <= aux; i++){
-	      for (j = 0; j < (aux - i); j++){
-	        if (elements[j] > elements[j+1]){
-	          n = elements[j];
-	          elements[j] = elements[j+1];
-	          elements[j+1] = n;
-	        }
-	      }
-	    }
-	    return elements;
+	    	for (i = 0; i <= aux; i++){
+	      		for (j = 0; j < (aux - i); j++){
+	        		if (elements[j] > elements[j+1]){
+	         			n = elements[j];
+	          			elements[j] = elements[j+1];
+	          			elements[j+1] = n;
+	        		}
+	      		}
+	    	}
+	    	return elements;
 	}
 	
 }
