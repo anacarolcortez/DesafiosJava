@@ -3,7 +3,7 @@ public class CalculadoraSalario {
 	
 	public long calcularSalarioLiquido(double salarioBase) {
 		double salarioLiquido = calcularIrfp(salarioBase);
-		if (salarioBase <0 || salarioBase <=  1039){
+		if (salarioBase <=  1039){
 			return 0;
 		}								
 		return Math.round(salarioLiquido);
