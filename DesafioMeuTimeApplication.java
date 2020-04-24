@@ -107,11 +107,12 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	}
 
 	public Boolean existeTime(Long id){
-		for (Time time : this.times) {
+		for (Time time : times) {
 			if (time.getId() == id) {
 				return true;
-			}
+			} else {
 			return false;
+			}
 		}
 	}
 
