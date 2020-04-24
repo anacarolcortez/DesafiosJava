@@ -107,23 +107,11 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	}
 
 	public Boolean existeTime(Long id){
-		for (Time time : times) {
-			if (time.getId() == id) {
-				return true;
-			} else {
-			return false;
-			}
-		}
+		return times.stream().filter(x -> x.getId().equals(id)).findFirst().isPresent();
 	}
 
 	public Boolean existeJogador(Long id){
-		for (Jogador jogador : jogadores) {
-			if (jogador.getId() == id) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		return jogadores.stream().filter(x -> x.getId().equals(id)).findFirst().isPresent();
 	}
 
 
