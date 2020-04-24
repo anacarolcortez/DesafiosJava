@@ -89,7 +89,7 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarJogadorMaiorSalario")
 	public Long buscarJogadorMaiorSalario(Long idTime) {
-		Long jogadorMaiorSalario = buscarJogadoresDoTime(idTime).stream().min(comparing(Jogador::getSalario).thenComparing(Jogador::getId)).mapToLong(Jogador::getId).findFirst();
+		Long jogadorMaiorSalario = buscarJogadoresDoTime(idTime).stream().max(comparing(Jogador::getSalario).thenComparing(Jogador::getId)).mapToLong(Jogador::getId).findFirst();
 		return jogadorMaiorSalario;
 	}
 
