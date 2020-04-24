@@ -95,7 +95,7 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarTopJogadores")
 	public List<Long> buscarTopJogadores(Integer top) {
-        return jogadores.stream().sorted(comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId)).limit(top).mapToLong(Jogador::getId.collect(Collectors.toList());
+        return jogadores.stream().sorted(comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId)).limit(top).mapToLong(Jogador::getId.collect(Collectors.toList()));
     }
 
 	@Desafio("buscarCorCamisaTimeDeFora")
