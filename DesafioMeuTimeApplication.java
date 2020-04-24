@@ -36,36 +36,27 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("definirCapitao")
 	public void definirCapitao(Long idJogador) {
         if (!existeJogador(idJogador)) throw new br.com.codenation.desafio.exceptions.JogadorNaoEncontradoException();
-		Long buscarIdTimeJogador = jogadores.stream()
-											.filter(x -> x.getId().equals(idJogador))
-											.mapToLong(Jogador::idTime)
-											.findFirst();
+		Long buscarIdTimeJogador = jogadores.stream().filter(x -> x.getId().equals(idJogador)).mapToLong(Jogador::idTime).findFirst();
 		Long escolherCapitao = times.setIdCapitao(buscarIdTimeJogador);
         }
 
 	@Desafio("buscarCapitaoDoTime")
 	public Long buscarCapitaoDoTime(Long idTime) {
 		if (!existeTime(id)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
-		Long buscarCapitao = times.stream()
-								.mapToLong(Times::idCapitao)
-								.findFirst().orElseThrow(CapitaoNaoInformadoException::new);
+		Long buscarCapitao = times.stream().mapToLong(Times::idCapitao).findFirst().orElseThrow(CapitaoNaoInformadoException::new);
 	}
 
 	@Desafio("buscarNomeJogador")
 	public String buscarNomeJogador(Long idJogador) {
 	    if (!existeJogador(idJogador)) throw new br.com.codenation.desafio.exceptions.JogadorNaoEncontradoException();
-        String nomeJogador = jogadores.stream()
-                                        .filter(x -> x.getId().equals(idJogador))
-                                        .findFirst();
+        String nomeJogador = jogadores.stream().filter(x -> x.getId().equals(idJogador)).findFirst();
 		return nomeJogador;
 	}
 
 	@Desafio("buscarNomeTime")
 	public String buscarNomeTime(Long idTime) {
         if (!existeTime (idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
-		 String nomeTime = times.stream()
-                                .filter(x -> x.getId().equals(idTime))
-                                .findFirst();
+		 String nomeTime = times.stream().filter(x -> x.getId().equals(idTime)).findFirst();
         return nomeTime;
 	}
 
@@ -73,61 +64,38 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	public List<Long> buscarJogadoresDoTime(Long idTime) {
 	    if (!existeTime(idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
         List<Long> jogadoresDoTime;
-	    jogadoresDoTime = jogadores.stream()
-                                    .filter(x -> x.getIdTime().equals(idTime))
-                                    .collect(Collectors.toList());
+	    jogadoresDoTime = jogadores.stream().filter(x -> x.getIdTime().equals(idTime)).collect(Collectors.toList());
         return jogadoresDoTime;
     }
 
 	@Desafio("buscarMelhorJogadorDoTime")
 	public Long buscarMelhorJogadorDoTime(Long idTime) {
 		if (!existeTime (idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
-        Long melhorJogador = jogadores.stream()
-                                        .filter(x -> x.getIdTime().equals(idTime))
-                                        .max(Comparator.comparingInt(Jogador::getNivelHabilidade))
-                                        .mapToLong(Jogador::getId)
-                                        .findFirst();
+        Long melhorJogador = jogadores.stream().filter(x -> x.getIdTime().equals(idTime)).max(Comparator.comparingInt(Jogador::getNivelHabilidade)).mapToLong(Jogador::getId).findFirst();
         return melhorJogador;
 	}
 
 	@Desafio("buscarJogadorMaisVelho")
 	public Long buscarJogadorMaisVelho(Long idTime) {
 		buscarJogadoresDoTime(idTime);
-		Long jogadorMaisVelho = jogadoresDoTime.stream()
-                                                .min(comparing(Jogador::getDataNascimento)
-                                                .thenComparing(Jogador::getId))
-                                                .mapToLong(Jogador::getId)
-                                                .findFirst();
+		Long jogadorMaisVelho = jogadoresDoTime.stream().min(comparing(Jogador::getDataNascimento).thenComparing(Jogador::getId)).mapToLong(Jogador::getId).findFirst();
 		return jogadorMaisVelho;
 	}
 
 	@Desafio("buscarTimes")
 	public List<Long> buscarTimes() {
-	    return times.stream()
-                    .sorted(comparing(Time::getId))
-                    .map(Time::getId)
-                    .collect(Collectors.toList());
+	    return times.stream().sorted(comparing(Time::getId)).map(Time::getId).collect(Collectors.toList());
 	}
 
 	@Desafio("buscarJogadorMaiorSalario")
 	public Long buscarJogadorMaiorSalario(Long idTime) {
-		Long jogadorMaiorSalario = buscarJogadoresDoTime(idTime).stream()
-															.min(comparing(Jogador::getSalario)
-															.thenComparing(Jogador::getId))
-															.mapToLong(Jogador::getId)
-															.findFirst();
+		Long jogadorMaiorSalario = buscarJogadoresDoTime(idTime).stream().min(comparing(Jogador::getSalario).thenComparing(Jogador::getId)).mapToLong(Jogador::getId).findFirst();
 		return jogadorMaiorSalario;
 	}
 
 	@Desafio("buscarTopJogadores")
 	public List<Long> buscarTopJogadores(Integer top) {
-        return jogadores.stream()
-                        .sorted(comparingInt(Jogador::getNivelHabilidade)
-                        .reversed()
-                        .thenComparing(Jogador::getId))
-                        .limit(top)
-                        .mapToLong(Jogador::getId)
-                        .collect(Collectors.toList());
+        return jogadores.stream().sorted(comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId)).limit(top).mapToLong(Jogador::getId.collect(Collectors.toList());
     }
 
 	@Desafio("buscarCorCamisaTimeDeFora")
@@ -135,8 +103,7 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 		if(!existeTime(timeDaCasa) || !existeTime(timeDaCasa)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
 		Time timeCasa = buscarTimes(timeDaCasa);
 		Time timeFora = buscarTimes(timeDeFora);
-		return timeCasa.getCorUniformePrincipal()
-				.equals(timeFora.getCorUniformePrincipal() ? timeFora.getCorUniformeSecundario() : timeFora.getCorUniformePrincipal());
+		return timeCasa.getCorUniformePrincipal().equals(timeFora.getCorUniformePrincipal() ? timeFora.getCorUniformeSecundario() : timeFora.getCorUniformePrincipal());
 	}
 
 	public Boolean existeTime(Long id){
