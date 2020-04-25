@@ -29,13 +29,13 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("incluirJogador")
 	public void incluirJogador(Long id, Long idTime, String nome, LocalDate dataNascimento, Integer nivelHabilidade, BigDecimal salario){
 		if (existeJogador(id)) throw new br.com.codenation.desafio.exceptions.IdentificadorUtilizadoException();
-        if (!existeTime(idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
-        jogadores.add(new Jogador(id, idTime, nome, dataNascimento, nivelHabilidade, salario));
+        	if (!existeTime(idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
+        	jogadores.add(new Jogador(id, idTime, nome, dataNascimento, nivelHabilidade, salario));
 	}
 
 	@Desafio("definirCapitao")
 	public void definirCapitao(Long idJogador) {
-        if (!existeJogador(idJogador)) throw new br.com.codenation.desafio.exceptions.JogadorNaoEncontradoException();
+        	if (!existeJogador(idJogador)) throw new br.com.codenation.desafio.exceptions.JogadorNaoEncontradoException();
 		Long buscarIdTimeJogador = jogadores.stream().filter(x -> x.getId().equals(idJogador)).mapToLong(Jogador::idTime).findFirst();
 		Long escolherCapitao = times.setIdCapitao(buscarIdTimeJogador);
         }
@@ -48,31 +48,31 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarNomeJogador")
 	public String buscarNomeJogador(Long idJogador) {
-	    if (!existeJogador(idJogador)) throw new br.com.codenation.desafio.exceptions.JogadorNaoEncontradoException();
-        String nomeJogador = jogadores.stream().filter(x -> x.getId().equals(idJogador)).findFirst();
+	    	if (!existeJogador(idJogador)) throw new br.com.codenation.desafio.exceptions.JogadorNaoEncontradoException();
+      	 	String nomeJogador = jogadores.stream().filter(x -> x.getId().equals(idJogador)).findFirst();
 		return nomeJogador;
 	}
 
 	@Desafio("buscarNomeTime")
 	public String buscarNomeTime(Long idTime) {
-        if (!existeTime (idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
+        	if (!existeTime (idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
 		 String nomeTime = times.stream().filter(x -> x.getId().equals(idTime)).findFirst();
-        return nomeTime;
+        	return nomeTime;
 	}
 
 	@Desafio("buscarJogadoresDoTime")
 	public List<Long> buscarJogadoresDoTime(Long idTime) {
-	    if (!existeTime(idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
-        List<Long> jogadoresDoTime;
-	    jogadoresDoTime = jogadores.stream().filter(x -> x.getIdTime().equals(idTime)).collect(Collectors.toList());
-        return jogadoresDoTime;
-    }
+	    	if (!existeTime(idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
+        	List<Long> jogadoresDoTime;
+	    	jogadoresDoTime = jogadores.stream().filter(x -> x.getIdTime().equals(idTime)).collect(Collectors.toList());
+        	return jogadoresDoTime;
+    	}
 
 	@Desafio("buscarMelhorJogadorDoTime")
 	public Long buscarMelhorJogadorDoTime(Long idTime) {
 		if (!existeTime (idTime)) throw new br.com.codenation.desafio.exceptions.TimeNaoEncontradoException();
-        Long melhorJogador = jogadores.stream().filter(x -> x.getIdTime().equals(idTime)).max(Comparator.comparingInt(Jogador::getNivelHabilidade)).mapToLong(Jogador::getId).findFirst();
-        return melhorJogador;
+        	Long melhorJogador = jogadores.stream().filter(x -> x.getIdTime().equals(idTime)).max(Comparator.comparingInt(Jogador::getNivelHabilidade)).mapToLong(Jogador::getId).findFirst();
+        	return melhorJogador;
 	}
 
 	@Desafio("buscarJogadorMaisVelho")
@@ -84,18 +84,19 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarTimes")
 	public List<Long> buscarTimes() {
-	    return times.stream().sorted(comparing(Time::getId)).map(Time::getId).collect(Collectors.toList());
+		return times.stream().sorted(comparing(Time::getId)).map(Time::getId).collect(Collectors.toList());
 	}
 
 	@Desafio("buscarJogadorMaiorSalario")
 	public Long buscarJogadorMaiorSalario(Long idTime) {
+		buscarJogadoresDoTime(idTime);
 		Long jogadorMaiorSalario = buscarJogadoresDoTime(idTime).stream().max(comparing(Jogador::getSalario).thenComparing(Jogador::getId)).mapToLong(Jogador::getId).findFirst();
 		return jogadorMaiorSalario;
 	}
 
 	@Desafio("buscarTopJogadores")
 	public List<Long> buscarTopJogadores(Integer top) {
-        return jogadores.stream().sorted(comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId)).limit(top).mapToLong(Jogador::getId.collect(Collectors.toList()));
+        	return jogadores.stream().sorted(comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId)).limit(top).mapToLong(Jogador::getId.collect(Collectors.toList()));
     }
 
 	@Desafio("buscarCorCamisaTimeDeFora")
