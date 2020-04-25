@@ -118,10 +118,11 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	}
 
-	@Desafio("buscarJogadoresDoTime")
-	public List<Long> buscarJogadoresDoTime(Long idTime){
-
+	@Desafio("buscarSalarioDoJogador")
+	public BigDecimal buscarSalarioDoJogaodor(Long idJogador) {
+		
 	}
+
 
 	@Desafio("buscarTopJogadores")
 	public List<Long> buscarTopJogadores(Integer top) {
