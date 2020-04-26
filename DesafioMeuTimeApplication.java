@@ -70,13 +70,12 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("buscarJogadoresDoTime")
 	public List<Long> buscarJogadoresDoTime(Long idTime) {
 		if (!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
-		List<Long> jogadoresDoTime = jogadores.stream()
+		return jogadores.stream()
 				.filter(x -> x.getIdTime() == idTime)
 				.mapToLong(Jogador::getId)
 				.sorted()
 				.boxed()
 				.collect(Collectors.toList());
-		return jogadoresDoTime;
 	}
 
 	@Desafio("buscarMelhorJogadorDoTime")
