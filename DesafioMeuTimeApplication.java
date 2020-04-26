@@ -1,13 +1,8 @@
-//CORRIGIR 1 ERRO
-
 package br.com.codenation;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 import java.util.stream.*;
 
 import br.com.codenation.desafio.annotation.Desafio;
@@ -48,9 +43,8 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	}
 
 	@Desafio("buscarCapitaoDoTime")
-	public Long buscarCapitaoDoTime(Long idTime) {
+	public Long buscarCapitaoDoTime(Long idTime) throws CapitaoNaoInformadoException{
 		if (!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
-		//fazer uma checagem do capitao CapitaoNaoInformadoException
 		return times.stream().filter(x -> x.getId() == idTime).map(Time::getCapitao).findFirst().get();
 	}
 
@@ -108,13 +102,25 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarJogadorMaiorSalario")
 	public Long buscarJogadorMaiorSalario(Long idTime) {
+		Long jogadorMaiorSalario = 0L;
 		if(!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
-		return buscarJogadoresDoTime(idTime).stream()
-				.sorted(Comparator.comparing(Jogador::getSalario).reversed().thenComparing(Jogador::getId))
-				.boxed()
-				.mapToLong(Jogador::getId)
-				.findFirst();
-	}//ERRO 112 COMPARATOR
+		ArrayList<Jogador> timeSelecionado = new ArrayList<>();
+			for(Jogador jogador: jogadores){
+				if (jogador.getIdTime() == idTime){
+					timeSelecionado.add(jogador);
+				}
+			}
+		Optional<BigDecimal> max = timeSelecionado.stream()
+				.map(Jogador::getSalario)
+				.max(Comparator.naturalOrder());
+		for (Jogador jogador: timeSelecionado){
+			if (jogador.getSalario().equals(max)){
+				jogadorMaiorSalario = jogador.getId();
+			}
+		}
+
+		return jogadorMaiorSalario;
+	}
 
 	@Override
 	public BigDecimal buscarSalarioDoJogador(Long idJogador) {
@@ -171,5 +177,6 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	public Boolean existeJogador(Long id){
 		return jogadores.stream().anyMatch(x -> x.getId() == id);
 	}
+
 
 }
