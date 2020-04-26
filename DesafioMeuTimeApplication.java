@@ -1,4 +1,4 @@
-//CORRIGIR 4 ERROS
+//CORRIGIR 1 ERRO
 
 package br.com.codenation;
 
@@ -50,6 +50,7 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("buscarCapitaoDoTime")
 	public Long buscarCapitaoDoTime(Long idTime) {
 		if (!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
+		//fazer uma checagem do capitao CapitaoNaoInformadoException
 		return times.stream().filter(x -> x.getId() == idTime).map(Time::getCapitao).findFirst().get();
 	}
 
@@ -110,23 +111,25 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 		if(!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
 		return buscarJogadoresDoTime(idTime).stream()
 				.sorted(Comparator.comparing(Jogador::getSalario).reversed().thenComparing(Jogador::getId))
+				.boxed()
 				.mapToLong(Jogador::getId)
 				.findFirst();
 	}//ERRO 112 COMPARATOR
 
 	@Override
-	public BigDecimal buscarSalarioDoJogador(Long aLong) {
+	public BigDecimal buscarSalarioDoJogador(Long idJogador) {
 		if (!existeJogador(idJogador)) throw new JogadorNaoEncontradoException("Jogador não cadastrado");
-		BigDecimal salario = new BigDecimal("0");
+		BigDecimal salarioDoJogador = new BigDecimal("0");
+
 		for (Time time : times) {
 			for (Jogador jogador : jogadores) {
 				if (jogador.getId() == idJogador) {
-					salario = jogador.getSalario();
+					salarioDoJogador = jogador.getSalario();
 				}
 			}
 		}
-		return salario;
-	}//ERRO 119 E 123
+		return salarioDoJogador;
+	}
 
 
 	@Desafio("buscarTopJogadores")
@@ -135,8 +138,9 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 				.sorted(Comparator.comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId))
 				.limit(top)
 				.mapToLong(Jogador::getId)
+				.boxed()
 				.collect(Collectors.toList());
-	}//ERRO 138
+	}
 
 	@Desafio("buscarCorCamisaTimeDeFora")
 	public String buscarCorCamisaTimeDeFora(Long timeDaCasa, Long timeDeFora) {
@@ -167,6 +171,5 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	public Boolean existeJogador(Long id){
 		return jogadores.stream().anyMatch(x -> x.getId() == id);
 	}
-
 
 }
