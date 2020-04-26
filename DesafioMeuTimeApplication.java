@@ -90,7 +90,7 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("buscarJogadorMaisVelho")
 	public Long buscarJogadorMaisVelho(Long idTime) {
 		if(!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
-		return jogadores.stream().filter(x -> x.getIdTime() == idTime).sorted(Comparator.comparing(Jogador::getDataNascimento).reversed().thenComparing(Jogador::getId)).map(Jogador::getId).findFirst().get();
+		return jogadores.stream().filter(x -> x.getIdTime() == idTime).sorted(Comparator.comparing(Jogador::getDataNascimento).thenComparing(Jogador::getId)).map(Jogador::getId).findFirst().get();
 	}
 
 	@Desafio("buscarTimes")
