@@ -51,25 +51,28 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("buscarCapitaoDoTime")
 	public Long buscarCapitaoDoTime(Long idTime) {
 		if (!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
-		return times.stream().filter(x -> x.getId() == idTime).map(Time::getCapitao).findFirst().orElseThrow(CapitaoNaoInformadoException::new);
+		return times.stream()
+				.filter(x -> x.getId() == idTime)
+				.map(Time::getCapitao).findFirst()
+				.orElseThrow(CapitaoNaoInformadoException::new);
 	}
 
 	@Desafio("buscarNomeJogador")
 	public String buscarNomeJogador(Long idJogador) {
-		if (!existeJogador(idJogador)) throw new JogadorNaoEncontradoException("Jogador não cadastrado");
 		return jogadores.stream()
 				.filter(x -> x.getId() == idJogador)
 				.map(Jogador::getNome)
-				.toString();
+				.findFirst()
+				.orElseThrow(JogadorNaoEncontradoException::new);
 	}
 
 	@Desafio("buscarNomeTime")
 	public String buscarNomeTime(Long idTime) {
-		if (!existeTime (idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
 		return times.stream()
 				.filter(x -> x.getId() == idTime)
 				.map(Time::getNome)
-				.toString();
+				.findFirst()
+				.orElseThrow(TimeNaoEncontradoException::new);
 	}
 
 	@Desafio("buscarJogadoresDoTime")
@@ -120,30 +123,22 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 				.thenComparingLong(Jogador::getId))
 				.filter(jogador -> jogador.getIdTime().equals(idTime))
 				.map(Jogador::getId).findFirst()
-				.orElseThrow(() -> new TimeNaoEncontradoException("Time não encontrado"));
+				.orElseThrow(TimeNaoEncontradoException::new);
 	}
 
 	@Desafio("buscarSalarioDoJogador")
 	public BigDecimal buscarSalarioDoJogador(Long idJogador) {
-		if (!existeJogador(idJogador)) throw new JogadorNaoEncontradoException("Jogador não cadastrado");
-		BigDecimal salarioDoJogador = new BigDecimal("0");
-
-		for (Time time : times) {
-			for (Jogador jogador : jogadores) {
-				if (jogador.getId() == idJogador) {
-					salarioDoJogador = jogador.getSalario();
-					break;
-				}
-			}
-		}
-		return salarioDoJogador;
+		return jogadores.stream().filter(jogador -> jogador.getId() == idJogador)
+				.map(Jogador::getSalario).findFirst()
+				.orElseThrow(JogadorNaoEncontradoException::new);
 	}
-
 
 	@Desafio("buscarTopJogadores")
 	public List<Long> buscarTopJogadores(Integer top) {
 		return jogadores.stream()
-				.sorted(Comparator.comparingInt(Jogador::getNivelHabilidade).reversed().thenComparing(Jogador::getId))
+				.sorted(Comparator.comparingInt(Jogador::getNivelHabilidade)
+						.reversed()
+						.thenComparing(Jogador::getId))
 				.limit(top)
 				.mapToLong(Jogador::getId)
 				.boxed()
