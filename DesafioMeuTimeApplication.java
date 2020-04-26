@@ -34,13 +34,18 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	@Desafio("definirCapitao")
 	public void definirCapitao(Long idJogador) {
 		if (!existeJogador(idJogador)) throw new JogadorNaoEncontradoException("Jogador não cadastrado");
-		for (Time time : times) {
-			for (Jogador jogador : jogadores) {
-				if (jogador.getId() == idJogador) {
-					time.setCapitao(idJogador);
-				}
+
+		Long idTimeDoJogador = jogadores.stream()
+				.filter(x -> x.getId() == idJogador)
+				.map(Jogador::getIdTime)
+				.findFirst().orElseThrow(JogadorNaoEncontradoException::new);
+
+		times.forEach(time -> {
+			if (time.getId() == idTimeDoJogador) {
+				time.setCapitao(idJogador);
 			}
-		}
+		});
+
 	}
 
 	@Desafio("buscarCapitaoDoTime")
@@ -110,24 +115,12 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarJogadorMaiorSalario")
 	public Long buscarJogadorMaiorSalario(Long idTime) {
-		Long jogadorMaiorSalario = 0L;
-		if(!existeTime(idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
-		ArrayList<Jogador> timeSelecionado = new ArrayList<>();
-		for(Jogador jogador: jogadores){
-			if (jogador.getIdTime() == idTime){
-				timeSelecionado.add(jogador);
-			}
-		}
-		Optional<BigDecimal> max = timeSelecionado.stream()
-				.map(Jogador::getSalario)
-				.max(Comparator.naturalOrder());
-		for (Jogador jogador: timeSelecionado){
-			if (jogador.getSalario().equals(max)){
-				jogadorMaiorSalario = jogador.getId();
-			}
-		}
-
-		return jogadorMaiorSalario;
+		return jogadores.stream().sorted(Comparator.comparing(Jogador::getSalario)
+				.reversed()
+				.thenComparingLong(Jogador::getId))
+				.filter(jogador -> jogador.getIdTime().equals(idTime))
+				.map(Jogador::getId).findFirst()
+				.orElseThrow(() -> new TimeNaoEncontradoException("Time não encontrado"));
 	}
 
 	@Desafio("buscarSalarioDoJogador")
