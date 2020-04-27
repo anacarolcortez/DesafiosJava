@@ -173,10 +173,12 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 	}
 
 	public Boolean existeTime(Long id){
+		if (id == null || id < 0) throw new IllegalArgumentException("Digite um número válido");
 		return times.stream().anyMatch(x -> x.getId() == id);
 	}
 
 	public Boolean existeJogador(Long id){
+		if (id == null || id < 0) throw new IllegalArgumentException("Digite um número válido");
 		return jogadores.stream().anyMatch(x -> x.getId() == id);
 	}
 
