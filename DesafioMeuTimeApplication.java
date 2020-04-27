@@ -139,6 +139,7 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 	@Desafio("buscarTopJogadores")
 	public List<Long> buscarTopJogadores(Integer top) {
+		if (top == null || top < 0) throw new IllegalArgumentException("Digite um número válido");
 		return jogadores.stream()
 				.sorted(Comparator.comparingInt(Jogador::getNivelHabilidade)
 						.reversed()
