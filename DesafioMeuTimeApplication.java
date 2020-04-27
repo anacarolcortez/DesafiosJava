@@ -91,8 +91,11 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 		if (!existeTime (idTime)) throw new TimeNaoEncontradoException("Time não encontrado");
 		return jogadores.stream()
 				.filter(x -> x.getIdTime().equals(idTime))
-				.max(Comparator.comparingInt(Jogador::getNivelHabilidade))
+				.sorted(Comparator.comparingInt(Jogador::getNivelHabilidade)
+						.reversed()
+						.thenComparing(Jogador::getId))
 				.map(Jogador::getId)
+				.findFirst()
 				.orElseThrow(JogadorNaoEncontradoException::new);
 	}
 
@@ -151,6 +154,14 @@ public class DesafioMeuTimeApplication implements MeuTimeInterface {
 
 		Time timeCasa = new Time();
 		Time timeConvidado = new Time();
+
+		for (Time time : times) {
+			if (time.getId() == timeDaCasa) {
+				timeCasa = time;
+			} else if (time.getId() == timeDeFora) {
+				timeConvidado = time;
+			}
+		}
 
 		if (!timeCasa.getCorUniformePrincipal().equals(timeConvidado.getCorUniformePrincipal())) {
 			return timeConvidado.getCorUniformePrincipal();
