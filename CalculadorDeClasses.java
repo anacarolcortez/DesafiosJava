@@ -1,13 +1,16 @@
-package desafio;
+package com.challenge.desafio;
 
-import interfaces.Calculavel;
+import com.challenge.interfaces.Calculavel;
+import com.challenge.annotation.Somar;
+import com.challenge.annotation.Subtrair;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.lang.reflect.*;
 import java.util.ArrayList;
 
-public abstract class CalculadorDeClasses implements Calculavel {
+
+public class CalculadorDeClasses implements Calculavel {
 
 
     public ArrayList<Object> acumuladorBigDecimal(Object classe) {
@@ -25,7 +28,7 @@ public abstract class CalculadorDeClasses implements Calculavel {
         return todosBigDecimal;
     }
 
-    private BigDecimal fazerCalculoBase(Object classe) {
+    private BigDecimal fazerCalculoBase(Object classe, Class annotation) {
         BigDecimal somaBigDecimal = new BigDecimal(0);
         try {
             Annotation[] annotations = Object.class.getDeclaredAnnotations();
@@ -45,22 +48,16 @@ public abstract class CalculadorDeClasses implements Calculavel {
 
     @Override
     public BigDecimal somar(Object classe) throws IllegalAccessException {
-        BigDecimal soma = fazerCalculoBase(classe);
-        return soma;
+        return fazerCalculoBase(classe, Somar.class);
     }
 
     @Override
     public BigDecimal subtrair(Object classe) throws IllegalAccessException {
-        BigDecimal subtracao = fazerCalculoBase(classe);
-        return subtracao;
+        return fazerCalculoBase(classe, Subtrair.class);
     }
 
     @Override
     public BigDecimal totalizar(Object classe) throws IllegalAccessException {
-        BigDecimal resultadoFinal = somar(classe).subtract(subtrair (classe));
-        return resultadoFinal;
+        return somar(classe).subtract(subtrair (classe));
     }
-
-
-
 }
