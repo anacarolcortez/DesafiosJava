@@ -36,8 +36,8 @@ public class CalculadorDeClasses implements Calculavel {
                 somaBigDecimal =  BigDecimal.ZERO;
             } else {
                 ArrayList<Object> todosBigDecimal = acumuladorBigDecimal(classe);
-                for(int i = 0; i < todosBigDecimal.size(); i++){
-                    somaBigDecimal = (BigDecimal)todosBigDecimal.get(i);
+                for (Object bdec : todosBigDecimal) {
+                    somaBigDecimal = somaBigDecimal.add((BigDecimal) bdec);
                 }
             }
         } catch (Throwable e) {
