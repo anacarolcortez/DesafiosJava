@@ -10,13 +10,13 @@ import java.math.BigDecimal;
 
 public class CalculadorDeClasses implements Calculavel {
 
-    public BigDecimal acumuladorSoma(Object classe, Class annotation) {
+    public BigDecimal acumulador(Object classe, Class annotation) {
         BigDecimal somaBigDecimal = BigDecimal.ZERO;
         try {
             Field[] parametros = Object.class.getFields();
             for (Field parametro : parametros) {
                 parametro.setAccessible(true);
-                if (parametro.isAnnotationPresent(Somar.class) && parametro.getType().isAssignableFrom(BigDecimal.class)) {
+                if (parametro.isAnnotationPresent(annotation) && parametro.getType().isAssignableFrom(BigDecimal.class)) {
                     somaBigDecimal = somaBigDecimal.add(new BigDecimal(parametro.getDouble(BigDecimal.class)));
                 }
             }
@@ -25,32 +25,15 @@ public class CalculadorDeClasses implements Calculavel {
         }
         return somaBigDecimal;
     }
-
-    public BigDecimal acumuladorSubtracao(Object classe, Class annotation) {
-        BigDecimal somaBigDecimal = BigDecimal.ZERO;
-        try {
-            Field[] parametros = Object.class.getFields();
-            for (Field parametro : parametros) {
-                parametro.setAccessible(true);
-                if (parametro.isAnnotationPresent(Subtrair.class) && parametro.getType().isAssignableFrom(BigDecimal.class)) {
-                    somaBigDecimal = somaBigDecimal.add(new BigDecimal(parametro.getDouble(BigDecimal.class)));
-                }
-            }
-        }catch (Throwable e) {
-            System.out.println("Erro ao acessar atributos da classe");
-        }
-        return somaBigDecimal;
-    }
-
 
     @Override
     public BigDecimal somar(Object classe) throws IllegalAccessException {
-        return acumuladorSoma(classe, Somar.class);
+        return acumulador(classe, Somar.class);
     }
 
     @Override
     public BigDecimal subtrair(Object classe) throws IllegalAccessException {
-        return acumuladorSubtracao(classe, Subtrair.class);
+        return acumulador(classe, Subtrair.class);
     }
 
     @Override
