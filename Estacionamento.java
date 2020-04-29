@@ -9,14 +9,13 @@ public class Estacionamento {
     private Set<Carro> carros = new LinkedHashSet<>();
 
     public void estacionar(Carro carro) {
-    	validarCarro(carro);
-        if (carros.size() >= 10) {
-            Iterator<Carro> carrosAsIt = carros.iterator();
-            while (carrosAsIt.hasNext()) {
-                Carro carroEstacionado = carrosAsIt.next();
-                Motorista motor = carroEstacionado.getMotorista();
+        validarCarro(carro);
+        if (carrosEstacionados() >= 10) {
+            for (Iterator<Carro> it = carros.iterator(); it.hasNext(); ) {
+                Carro carroNoEstacionamento = it.next();
+                Motorista motor = carroNoEstacionamento.getMotorista();
                 if (motor.getIdade() < 55) {
-                    carros.remove(carroEstacionado);
+                    carros.remove(carroNoEstacionamento);
                     carros.add(carro);
                     return;
                 }
