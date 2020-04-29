@@ -13,15 +13,15 @@ public class CalculadorDeClasses implements Calculavel {
     public BigDecimal acumulador(Object classe, Class annotation) {
         BigDecimal somaBigDecimal = BigDecimal.ZERO;
         try {
-            Field[] parametros = Object.class.getFields();
-            for (Field parametro : parametros) {
+            Class parametros = classe.getClass();
+            for (Field parametro : parametros.getFields()) {
                 parametro.setAccessible(true);
-                if (parametro.isAnnotationPresent(annotation) && parametro.getType().isAssignableFrom(BigDecimal.class)) {
-                    somaBigDecimal = somaBigDecimal.add(new BigDecimal(parametro.getDouble(BigDecimal.class)));
+                if (parametro.isAnnotationPresent(annotation) && parametro.getType().equals(BigDecimal.class)){
+                    somaBigDecimal = somaBigDecimal.add((BigDecimal) parametro.get(classe));
                 }
             }
-        }catch (Throwable e) {
-            System.out.println("Erro ao acessar atributos da classe");
+        }catch (IllegalArgumentException | IllegalAccessException e) {
+            System.out.println("Não é possível acessar atributos");
         }
         return somaBigDecimal;
     }
