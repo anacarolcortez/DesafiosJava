@@ -10,19 +10,15 @@ import java.math.BigDecimal;
 
 public class CalculadorDeClasses implements Calculavel {
 
-    public BigDecimal acumulador(Object classe, Class annotation) {
+    public BigDecimal acumulador(Object classe, Class annotation) throws InvocationTargetException, IllegalAccessException {
         BigDecimal somaBigDecimal = BigDecimal.ZERO;
-        try {
             Class parametros = classe.getClass();
             for (Field parametro : parametros.getFields()) {
                 parametro.setAccessible(true);
-                if (parametro.isAnnotationPresent(annotation) && parametro.getType().equals(BigDecimal.class)){
+               if (parametro.isAnnotationPresent(annotation) && parametro.getType().getTypeName().equals(BigDecimal.class.getTypeName())) {
                     somaBigDecimal = somaBigDecimal.add((BigDecimal) parametro.get(classe));
                 }
             }
-        }catch (IllegalArgumentException | IllegalAccessException e) {
-            System.out.println("Não é possível acessar atributos");
-        }
         return somaBigDecimal;
     }
 
