@@ -11,7 +11,7 @@ public class CriptografiaCesariana implements Criptografia {
         char [] fraseOriginal = texto.toLowerCase().toCharArray();
         char [] fraseNova = new char[fraseOriginal.length];
 
-        for(int i : fraseOriginal) {
+       for(int i = 0; i<fraseNova.length; i++) {
             fraseNova[i] = (char) (fraseOriginal[i]);
             if (fraseOriginal[i] >= 97 && fraseOriginal[i] < 120) { fraseNova[i] = (char) (fraseOriginal[i]+CHAVE); }
             if (fraseOriginal[i] >= 120 && fraseOriginal[i] <= 122 ) { fraseNova[i] = (char) (fraseOriginal[i]-20-CHAVE); }
@@ -25,7 +25,7 @@ public class CriptografiaCesariana implements Criptografia {
         char [] fraseOriginal = texto.toLowerCase().toCharArray();
         char [] fraseNova = new char[fraseOriginal.length];
 
-        for(int i : fraseOriginal) {
+        for(int i = 0; i<fraseNova.length; i++) {
             fraseNova[i] = (char) (fraseOriginal[i]);
             if (fraseOriginal[i] > 99 && fraseOriginal[i] <= 122) { fraseNova[i] = (char) (fraseOriginal[i]-CHAVE); }
             if (fraseOriginal[i] >= 97 && fraseOriginal[i] <= 99 ) {fraseNova[i] = (char) (fraseOriginal[i]+20+CHAVE); }
