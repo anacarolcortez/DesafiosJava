@@ -1,3 +1,3 @@
 # AceleradevCodenationJava
 
-Repositório de códigos desenvolvidos durante o AceleraDev Java da Codenation, ente 15 de abril e 22 de junho de 2020.
+Repositório de códigos dos desafios desenvolvidos durante o AceleraDev Java da Codenation, módulos 1 a 3
